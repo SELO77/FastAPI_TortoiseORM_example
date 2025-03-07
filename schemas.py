@@ -2,7 +2,7 @@ from pydantic import BaseModel
 from typing import Optional, List
 from datetime import datetime
 from tortoise.contrib.pydantic import pydantic_model_creator
-from models import User, Todo
+from models import User, Todo, TodoComment
 
 
 # Pydantic models for request
@@ -22,6 +22,16 @@ class TodoUpdate(BaseModel):
     is_completed: Optional[bool] = None
 
 
+class TodoCommentCreate(BaseModel):
+    content: str
+    todo_id: int
+    user_id: int
+
+
+class TodoCommentUpdate(BaseModel):
+    content: str
+
+
 # Error response model
 class HTTPNotFoundError(BaseModel):
     detail: str
@@ -30,3 +40,4 @@ class HTTPNotFoundError(BaseModel):
 # Pydantic models generated from Tortoise models
 UserResponse = pydantic_model_creator(User, name="UserResponse")
 TodoResponse = pydantic_model_creator(Todo, name="TodoResponse")
+TodoCommentResponse = pydantic_model_creator(TodoComment, name="TodoCommentResponse")

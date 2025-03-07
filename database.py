@@ -1,20 +1,25 @@
 from tortoise import Tortoise
 
+# Database URL
+DB_URL = "sqlite://db.sqlite3"
 
+# Tortoise ORM configuration
 TORTOISE_ORM = {
-    "connections": {"default": "sqlite://db.sqlite3"},
+    "connections": {"default": DB_URL},
     "apps": {
         "models": {
-            "models": ["models"],
+            "models": ["models", "aerich.models"],
             "default_connection": "default",
         },
     },
+    "use_tz": False,
+    "timezone": "UTC",
 }
 
 
 async def init_db():
     await Tortoise.init(
-        db_url="sqlite://db.sqlite3",
+        db_url=DB_URL,
         modules={"models": ["models"]},
     )
     # Generate the schema
